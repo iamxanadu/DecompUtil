@@ -27,13 +27,15 @@ PYBIND11_MODULE(decomp_util, m) {
       .def("closest_hyperplane", &Ellipsoid2D::closest_hyperplane)
       .def("print", &Ellipsoid2D::print)
       .def("C", &Ellipsoid2D::C)
-      .def("d", &Ellipsoid2D::d);
+      .def("d", &Ellipsoid2D::d)
+      .def("sample", &Ellipsoid2D::sample<2>);
   py::class_<Polyhedron2D>(m, "Polyhedron2D")
       .def(py::init<>())
-      .def(py::init<const vec_E<Hyperplane<2>>&>())
+      .def(py::init<const vec_E<Hyperplane<2>> &>())
       .def("add", &Polyhedron2D::add)
       .def("inside", &Polyhedron2D::inside)
       .def("points_inside", &Polyhedron2D::points_inside)
       .def("cal_normals", &Polyhedron2D::cal_normals)
       .def("hyperplanes", &Polyhedron2D::hyperplanes);
+  m.def("cal_vertices", py::overload_cast<const Polyhedron2D&>(&cal_vertices));
 }
