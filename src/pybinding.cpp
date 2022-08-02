@@ -3,6 +3,7 @@
 #include <pybind11/stl.h>
 
 #include <decomp_geometry/geometric_utils.h>
+#include <decomp_util/ellipsoid_decomp.h>
 #include <decomp_util/line_segment.h>
 
 namespace py = pybind11;
@@ -37,5 +38,13 @@ PYBIND11_MODULE(decomp_util, m) {
       .def("points_inside", &Polyhedron2D::points_inside)
       .def("cal_normals", &Polyhedron2D::cal_normals)
       .def("hyperplanes", &Polyhedron2D::hyperplanes);
+  py::class_<EllipsoidDecomp2D>(m, "EllipsoidDecomp2D")
+      .def(py::init<>())
+      .def(py::init<const Vecf<2> &, const Vecf<2> &>())
+      .def("set_obs", &EllipsoidDecomp2D::set_obs)
+      .def("get_polyhedrons", &EllipsoidDecomp2D::get_polyhedrons)
+      .def("get_ellipsoids", &EllipsoidDecomp2D::get_ellipsoids)
+      .def("set_local_bbox", &EllipsoidDecomp2D::set_local_bbox)
+      .def("dilate", &EllipsoidDecomp2D::dilate);
   m.def("cal_vertices", py::overload_cast<const Polyhedron2D&>(&cal_vertices));
 }
